@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Proyectos\Template ASP.NET Core\Template.Service\Template.Service (AspNetCore).xml</DocumentationFile>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Template.Business\Template.BusinessLogic.csproj" />
+    <ProjectReference Include="..\Template.Common\Template.Common.csproj" />
+    <ProjectReference Include="..\Template.DataAccess\Template.DataAccess.csproj" />
+    <ProjectReference Include="..\Template.Models\Template.Models.csproj" />
+  </ItemGroup>
+
+
+</Project>

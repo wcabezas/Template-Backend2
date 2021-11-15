@@ -1,0 +1,89 @@
+trigger:
+  branches:
+    include:
+    - main
+    - master
+    - release/test
+    exclude:
+    - develop
+    
+pool:
+  vmImage: windows-latest
+
+
+variables:
+  BuildConfiguration: 'Release'
+  Parameters.RestoreBuildProjects: '**/*.csproj'
+
+
+stages:
+- stage: Build
+
+  jobs:
+  - job: BuildJob
+    steps:
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Restoring dependencies'
+      inputs:
+        command: restore
+        projects: '$(Parameters.RestoreBuildProjects)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Building'
+      inputs:
+        projects: '$(Parameters.RestoreBuildProjects)'
+        arguments: '--configuration $(BuildConfiguration)'
+
+    - script: | 
+        "%ProgramFiles(x86)%\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe" init /server "(localdb)\MsSqlLocalDb"
+        "%ProgramFiles(x86)%\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator" start
+      workingDirectory: $(System.DefaultWorkingDirectory)
+      displayName: Launching storage simulator 
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Executing tests'
+      inputs:
+        command: test
+        projects: '**/*[Tt]ests/*.csproj'
+        arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\'
+    
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publishing code coverage results'
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(Build.SourcesDirectory)/TestResults/Coverage/*cobertura.xml'
+        reportDirectory: '$(Build.SourcesDirectory)/TestResults/Coverage'
+
+# Uncomment this task to publish the function in azure
+#    - task: AzureFunctionApp@1
+#      displayName: 'Publishing to Azure'
+#      inputs:
+#        azureSubscription: '{subscriptionName}'
+#        appType: 'functionApp'
+#        appName: '{appName}'
+#        package: '{path to netcoreapp3.1 folder to publish}'
+#        deploymentMethod: 'auto'
+
+# Uncomment this task to update APIM 
+#    Install the Apim DevOps Toolkit
+#    - task: DotNetCoreCLI@2
+#        displayName: 'Install Apim DevOps Toolkit'
+#        inputs:
+#        command: custom
+#        workingDirectory: $(Build.SourcesDirectory)
+#        custom: tool
+#        arguments: 'install --global Apim.DevOps.Toolkit'
+
+#    Creates the ARM template using the Apim DevOps Toolkit
+#    - script: dotnet-apim --yamlConfig "$(Build.SourcesDirectory)/apim/definition.yml" --output "$(Build.StagingDirectory)/apim/output" --v
+
+#    Deploy the generated template in azure
+#    - task: AzureResourceGroupDeployment@2
+#        inputs:
+#        azureSubscription: 'APIM-Bancontinental'
+#        resourceGroupName: APIM-Bancontinental
+#        templateLocation: Linked artifact
+#        csmFile: '$(Build.StagingDirectory)/apim/output/apim_deploy.template.json'
+#        csmParametersFile: '$(Build.StagingDirectory)/apim/output/parameters.json'
+ 

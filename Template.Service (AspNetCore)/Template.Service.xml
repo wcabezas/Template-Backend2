@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Template.Service</name>
+    </assembly>
+    <members>
+        <member name="T:Template.Service.Controllers.BaseController">
+            <summary>
+            Base controller 
+            </summary>
+        </member>
+        <member name="F:Template.Service.Controllers.BaseController.logger">
+            <summary>
+            Loggger
+            </summary>
+        </member>
+        <member name="M:Template.Service.Controllers.BaseController.#ctor(Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Gets by DI the depedencies
+            </summary>
+        </member>
+        <member name="M:Template.Service.Controllers.BaseController.Execute``1(System.Func{System.Threading.Tasks.Task{Template.Models.Result{``0}}})">
+            <summary>
+            Execute a business logic method with no parameters
+            </summary>
+            <typeparam name="TResult">Result calss</typeparam>
+            <param name="func">Method to execute</param>
+            <returns>OkObjectResult with a Response</returns>
+        </member>
+        <member name="M:Template.Service.Controllers.BaseController.Execute``1(System.Func{``0,System.Threading.Tasks.Task{Template.Models.Result}},``0)">
+            <summary>
+            Execute a business logic method that requires parameters and return a simple result (non typed)
+            </summary>
+            <typeparam name="TRequest">Request type</typeparam>
+            <param name="request">Request data</param>
+            <param name="func">Method to execute</param>
+            <returns>OkObjectResult with a Response</returns>
+        </member>
+        <member name="M:Template.Service.Controllers.BaseController.Execute``2(System.Func{``0,System.Threading.Tasks.Task{Template.Models.Result{``1}}},``0)">
+            <summary>
+            Execute a business logic method that requieres parameters and return a typed result
+            </summary>
+            <typeparam name="TRequest">Request type</typeparam>
+            <typeparam name="TResult">Result type</typeparam>
+            <param name="request">Request data</param>
+            <param name="func">Method to execute</param>
+            <returns>OkObjectResult with a Response</returns>
+        </member>
+        <member name="M:Template.Service.Controllers.BaseController.Execute``1(System.Func{System.Threading.Tasks.Task{Template.Models.Result}})">
+            <summary>
+            Execute a business logic method that doens't requieres parameters and return a simple result
+            </summary>
+            <typeparam name="TResult">Result class</typeparam>
+            <param name="func">Method to execute</param>
+            <returns>OkObjectResult with a Response</returns>
+        </member>
+        <member name="M:Template.Service.Controllers.BaseController.InternalServiceError(System.Exception)">
+            <summary>
+            Returns and Internal Server error response
+            </summary>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Template.Service.Controllers.ItemsController">
+            <summary>
+            API controller for the Items collection
+            </summary>
+        </member>
+        <member name="M:Template.Service.Controllers.ItemsController.#ctor(Microsoft.Extensions.Logging.ILogger{Template.Service.Controllers.ItemsController},Template.Common.BusinessLogic.IItemsBusinessLogic)">
+            <summary>
+            Receives by DI the dependencies
+            </summary>
+        </member>
+        <member name="M:Template.Service.Controllers.ItemsController.GetItemAsync(System.String)">
+            <summary>
+            Return an item
+            </summary>
+        </member>
+        <member name="M:Template.Service.Controllers.ItemsController.GetItemsAsync">
+            <summary>
+            Returna a collection of items
+            </summary>
+        </member>
+        <member name="M:Template.Service.Controllers.ItemsController.SubmitItemAsync(Template.Models.Item)">
+            <summary>
+            Creates a new item
+            </summary>
+        </member>
+        <member name="M:Template.Service.Controllers.ItemsController.DeleteItem(System.String)">
+            <summary>
+            Deletes an item
+            </summary>
+        </member>
+        <member name="T:Template.Service.Program">
+            <summary>
+            ASP.Net Core Entry point
+            </summary>
+        </member>
+        <member name="M:Template.Service.Program.Main(System.String[])">
+            <summary>
+            Entry point
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Template.Service.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Cretas the host
+            </summary>
+        </member>
+        <member name="T:Template.Service.Startup">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Template.Service.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Template.Service.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Template.Service.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+        </member>
+    </members>
+</doc>
