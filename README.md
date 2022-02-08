@@ -12,6 +12,11 @@
 - Ejemplo de acceso a los valores del appsetting.json (por ejemplo, acceder a la cadena de conexión en la capa de datos).
 - Seperación en capas (logica de negocios y acceso a datos)
 
+## Azure Function V4 (.NET 6)
+- El proyecto de Azure Function esta actualizado al runtime V4, utilizando .NET 6 (requiere Visual Studio 2022)
+- Incopora un Middleware base que se puede utilizar para guardar información de la sesión. Por ejemplo, tomar un header como el username y pasarlo a las demas clases por inyección de dependencias (clase SessionProvider)
+- A diferencia del template anterior, replaza el BaseFunction por una extención del HttpRequestData, simplificando el código
+
 
 ## Para utilizar el entity framework
 - Establecer el proyecto de SqlProvisiong como proyecto de inicio

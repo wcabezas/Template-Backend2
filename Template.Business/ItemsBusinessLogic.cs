@@ -7,6 +7,7 @@
     using Template.Common.DataAccess;
     using Microsoft.Extensions.Logging;
     using System;
+    using Template.Common.Models;
 
     /// <summary>
     /// Items Business Logic methods

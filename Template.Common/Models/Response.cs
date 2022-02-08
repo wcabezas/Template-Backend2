@@ -1,4 +1,4 @@
-﻿namespace Template.Models
+﻿namespace Template.Common.Models
 {
     /// <summary>
     /// Envelop the API response to add extra details

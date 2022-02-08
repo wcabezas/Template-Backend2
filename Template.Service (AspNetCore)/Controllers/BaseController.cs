@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Template.Models;
 using System;
 using System.Threading.Tasks;
+using Template.Common.Models;
 
 namespace Template.Service.Controllers
 {

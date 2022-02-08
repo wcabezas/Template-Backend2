@@ -2,6 +2,7 @@
 using Template.Models;
 using System.Threading.Tasks;
 using System;
+using Template.Common.Models;
 
 namespace Template.Common.BusinessLogic
 {

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
 
-namespace Template.Models
+namespace Template.Common.Models
 {
     /// <summary>
     /// Generic request

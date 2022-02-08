@@ -1,4 +1,4 @@
-﻿namespace Template.Models
+﻿namespace Template.Common.Models
 {
     using System;
    
