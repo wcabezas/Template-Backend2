@@ -1,4 +1,4 @@
-﻿namespace Template.Models
+﻿namespace Template.Common.Models
 {
     /// <summary>
     /// Hateoas links for the response

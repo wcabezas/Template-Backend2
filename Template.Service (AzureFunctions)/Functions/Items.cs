@@ -1,22 +1,20 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Template.Models;
 using Template.Common.BusinessLogic;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using System.Net;
-using System.Collections.Generic;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Template.Common.Models;
+using Template.Service.Extensions;
+
 
 namespace Template.Service.Functions
 {
     /// <summary>
     /// Sample Items API using http triggers
     /// </summary>
-    public class Items : BaseFunction
+    public class Items
     {
         /// <summary>
         /// Receive all the depedencies by dependency injection
@@ -27,7 +25,7 @@ namespace Template.Service.Functions
         /// <summary>
         /// Receive all the depedencies by DI
         /// </summary>        
-        public Items(IItemsBusinessLogic businessLogic, ILogger<Items> logger) : base(logger)
+        public Items(IItemsBusinessLogic businessLogic) 
         {
             this.businessLogic = businessLogic;
         }
@@ -38,13 +36,12 @@ namespace Template.Service.Functions
         /// </summary>       
         [OpenApiOperation("Items", "Create a new item", Description = "Creates a new item on the data storage")]
         [OpenApiRequestBody("application/json", typeof(Request<Item>), Required = true, Description = "Item object")]
-        [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Response<Item>), Summary = "Created item", Description = "Created item")]
-        [FunctionName(nameof(SubmitItemAsync))]
-        public async Task<IActionResult> SubmitItemAsync(
-         [HttpTrigger(AuthorizationLevel.Function, "post", Route = "items")] HttpRequest request)
+        [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Result<Item>), Description = "The new item")]
+        [Function(nameof(SubmitItemAsync))]
+        public async Task<HttpResponseData> SubmitItemAsync(
+         [HttpTrigger(AuthorizationLevel.Function, "post", Route = "items")] HttpRequestData request)
         {
-            var item = DeserializeBody<Item>(request.Body);
-            return await Execute(this.businessLogic.AddUpdateItemAsync, item);
+            return await request.CreateResponse(this.businessLogic.AddUpdateItemAsync, request.DeserializeBody<Item>());
         }
 
 
@@ -52,14 +49,13 @@ namespace Template.Service.Functions
         /// <summary>
         /// Returns a list of items
         /// </summary>        
-        [OpenApiOperation("Items", "Returns all items", "Return all the items from the data storage")]
-        [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Result<List<Item>>),
-            Summary = "A collection of items", Description = "A result object containing a collection of items")]
-        [FunctionName(nameof(Items.GetItemsAsync))]
-        public async Task<IActionResult> GetItemsAsync(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "items")] HttpRequest request)
+        [OpenApiOperation("GetItems", new[] { "Items" }, Description = "Return all the items from the data storage")]
+        [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Result<Item[]>), Description = "A result object containing a collection of items")]
+        [Function(nameof(Items.GetItemsAsync))]
+        public async Task<HttpResponseData> GetItemsAsync(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "items")] HttpRequestData request)
         {
-            return await Execute(this.businessLogic.LoadItemsAsync);
+            return await request.CreateResponse(this.businessLogic.LoadItemsAsync);
         }
     }
 }
