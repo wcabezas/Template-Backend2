@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Template.DataAccess.Entities;
-using Template.Models;
+using Template.SqlDataAccess.Entities;
 
-namespace Template.DataAccess
+namespace Template.SqlDataAccess
 {
     /// <summary>
     /// SQL Data context

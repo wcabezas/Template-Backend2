@@ -18,8 +18,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Template.Business\Template.BusinessLogic.csproj" />
     <ProjectReference Include="..\Template.Common\Template.Common.csproj" />
-    <ProjectReference Include="..\Template.DataAccess\Template.DataAccess.csproj" />
     <ProjectReference Include="..\Template.Models\Template.Models.csproj" />
+    <ProjectReference Include="..\Template.SqlDataAccess\Template.SqlDataAccess.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

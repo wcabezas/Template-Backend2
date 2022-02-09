@@ -4,11 +4,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 using System;
 using Template.Common.DataAccess;
-using Template.DataAccess;
 using Template.Common.BusinessLogic;
 using Template.BusinessLogic;
 using Template.Service.Middleware;
 using Template.Common.Providers;
+using Template.SqlDataAccess;
 
 namespace Template.Service
 {

@@ -1,4 +1,4 @@
-﻿namespace Template.DataAccess
+﻿namespace Template.SqlDataAccess
 {
     using Template.Models;
     using Microsoft.Extensions.Configuration;
@@ -6,11 +6,11 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Template.DataAccess.Helpers;
-    using Template.DataAccess.Entities;
     using Template.Common.DataAccess;
     using Microsoft.Extensions.Logging;
     using Microsoft.EntityFrameworkCore;
     using System;
+    using Template.SqlDataAccess.Entities;
 
     /// <summary>
     /// Data access implementation for Azure Storage

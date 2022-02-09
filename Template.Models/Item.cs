@@ -5,7 +5,7 @@ namespace Template.Models
     /// <summary>
     /// Sample item
     /// </summary>
-    public class Item 
+    public class Item  : BaseModel
     {
         /// <summary>
         /// Item Id

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Template.Common.DataAccess;
 
-namespace Template.DataAccess
+namespace Template.SqlDataAccess
 {
     /// <summary>
     /// Scoped service to handle the database connection for any layer

@@ -1,4 +1,4 @@
-﻿namespace Template.DataAccess.Entities
+﻿namespace Template.SqlDataAccess.Entities
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -7,9 +7,9 @@
     
 
     /// <summary>
-    /// Sample item to save on the storage
+    /// Sample item 
     /// </summary>
-    public class ItemEntity
+    public class ItemEntity : BaseEntity
     { 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
