@@ -8,6 +8,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Template.Common.Models;
 using Template.Service.Extensions;
 using System;
+using System.Collections.Generic;
 
 namespace Template.Service.Functions
 {
@@ -44,12 +45,10 @@ namespace Template.Service.Functions
             return await request.CreateResponse(this.businessLogic.AddItemAsync, request.DeserializeBody<Item>(), response =>
             {
                 // Adds the proper hateoas links to this item
-                response.Links = new ResponseLink[]
-                {
-                    new ResponseLink("self", $"/items/{response.Data.ItemId}"),
-                    new ResponseLink("delete", $"/items/{response.Data.ItemId}")
-                };
-
+                response.Links = new Dictionary<string, string>();
+                response.Links.Add("self", $"/items/{response.Data.ItemId}");
+                response.Links.Add("delete", $"/items/{response.Data.ItemId}");
+                response.Links.Add("put", $"/items");
             });
         }
 
@@ -67,12 +66,10 @@ namespace Template.Service.Functions
             return await request.CreateResponse(this.businessLogic.AddItemAsync, request.DeserializeBody<Item>(), response =>
             {
                 // Adds the proper hateoas links to this item
-                response.Links = new ResponseLink[]
-                {
-                    new ResponseLink("self", $"/items/{response.Data.ItemId}"),
-                    new ResponseLink("delete", $"/items/{response.Data.ItemId}")
-                };
-
+                response.Links = new Dictionary<string, string>();
+                response.Links.Add("self", $"/items/{response.Data.ItemId}");
+                response.Links.Add("delete", $"/items/{response.Data.ItemId}");
+                response.Links.Add("put", $"/items");              
             });
         }
 
@@ -90,12 +87,9 @@ namespace Template.Service.Functions
             return await request.CreateResponse(this.businessLogic.LoadItemAsync, itemId, response =>
             {
                 // Adds the proper hateoas links to this item
-                response.Links = new ResponseLink[]
-                {
-                    new ResponseLink("self", $"/items/{itemId}"),
-                    new ResponseLink("delete", $"/items/{itemId}")
-                };
-
+                response.Links = new Dictionary<string, string>();
+                response.Links.Add("self", $"/items/{itemId}");
+                response.Links.Add("delete", $"/items/{itemId}");              
             });
         }
 
@@ -130,12 +124,14 @@ namespace Template.Service.Functions
                 // Adds the proper hateoas links to each item in the collection
                 foreach(var item in response.Data)
                 {
-
+                    item.Links = new Dictionary<string, string>();
+                    item.Links.Add("self", $"/items/{item.ItemId}");
+                    item.Links.Add("delete", $"/items/{item.ItemId}");
                 }
-                response.Links = new ResponseLink[]
-                {
-                    new ResponseLink("nextPage", "/items"),
-                };
+                //response.Links = new ResponseLink[]
+                //{
+                //    new ResponseLink("nextPage", "/items"),
+                //};
                 
             });
         }

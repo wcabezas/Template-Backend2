@@ -1,5 +1,7 @@
 ﻿
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace Template.Models
 {
@@ -15,5 +17,9 @@ namespace Template.Models
         public string CreatedBy { get; set; }
 
         public string UpdatedBy { get; set; }
+
+
+        [JsonProperty("_links")]
+        public Dictionary<string, string> Links{ get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Template.Common.Models
 {
@@ -21,7 +22,7 @@ namespace Template.Common.Models
 
 
         [JsonProperty("_links")]
-        public ResponseLink[] Links { get; set; }
+        public Dictionary<string, string> Links { get; set; }
 
 
         /// <summary>

@@ -28,6 +28,10 @@
             {
                 ItemId = this.ItemId,
                 Text = this.Text,
+                Created = this.Created,
+                CreatedBy = this.CreatedBy,
+                Updated = this.Updated,
+                UpdatedBy = this.UpdatedBy,
             };
         }
 
@@ -41,6 +45,10 @@
             {             
                 ItemId = item.ItemId,
                 Text = item.Text,
+                Created = item.Created,
+                CreatedBy = item.CreatedBy,
+                Updated = item.Updated,
+                UpdatedBy = item.UpdatedBy,
             };
         }
 
