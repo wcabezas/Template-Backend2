@@ -10,25 +10,20 @@
         /// </summary>
         public string Href { get; private set; }
         
+     
         /// <summary>
-        /// Relate
+        /// Action or method
         /// </summary>
-        public string Rel { get; private set; }
-        
-        /// <summary>
-        /// Method
-        /// </summary>
-        public string Method { get; private set; }
+        public string Action { get; private set; }
         
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public ResponseLink(string href, string rel, string method)
+        public ResponseLink(string href,  string action)
         {
             this.Href = href;   
-            this.Rel = rel;
-            this.Method = method;
+            this.Action = action;
         }
     }
 }

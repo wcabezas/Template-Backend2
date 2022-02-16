@@ -20,22 +20,26 @@ namespace Template.Service.Extensions
     /// <summary>
     /// Creates a http response based on the result
     /// </summary>    
-    private static async Task<HttpResponseData> CreateResponseAsync(this HttpRequestData request, Result result)
+    private static async Task<HttpResponseData> CreateResponseAsync(this HttpRequestData request, Result result, Action<Response> setResponseLinks)
     {
-        var response = request.CreateResponse(result.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
-        await response.WriteAsJsonAsync(new Response(result.Success, result.Message)).ConfigureAwait(false);
-        return response;
+        var responseData = request.CreateResponse(result.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
+        var response = new Response(result.Success, result.Message);
+        if (setResponseLinks != null) setResponseLinks(response);
+        await responseData.WriteAsJsonAsync(response).ConfigureAwait(false);
+        return responseData;
     }
 
 
     /// <summary>
     /// Creates a http response based on the result
     /// </summary>    
-    private static async Task<HttpResponseData> CreateResponseAsync<TResult>(this HttpRequestData request, Result<TResult> result)
+    private static async Task<HttpResponseData> CreateResponseAsync<TResult>(this HttpRequestData request, Result<TResult> result, Action<Response<TResult>> setResponseLinks)
     {
-        var response = request.CreateResponse(result.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
-        await response.WriteAsJsonAsync(new Response<TResult>(result.Success, result.Data, result.Message)).ConfigureAwait(false);
-        return response;
+        var responseData = request.CreateResponse(result.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
+        var response = new Response<TResult>(result.Success, result.Data, result.Message);
+        if (setResponseLinks != null) setResponseLinks(response);
+        await responseData.WriteAsJsonAsync(response).ConfigureAwait(false);
+        return responseData;
     }
 
 
@@ -43,48 +47,49 @@ namespace Template.Service.Extensions
     /// <summary>
     /// Returns a HTTP response after executing a method with no parameters
     /// </summary>   
-    public static async Task<HttpResponseData> CreateResponse<TResult>(this HttpRequestData request, Func<Task<Result<TResult>>> func)
+    public static async Task<HttpResponseData> CreateResponse<TResult>(this HttpRequestData request, Func<Task<Result<TResult>>> func, Action<Response<TResult>> setResponseLinks = null)
     {
         var logger = request.FunctionContext.GetLogger(request.FunctionContext.FunctionDefinition.Name);
         logger?.LogInformation($"Executing {request.FunctionContext.FunctionDefinition.Name}");
         var result = await func();
-        return await CreateResponseAsync(request, result);
+        return await CreateResponseAsync(request, result, setResponseLinks);
     }
-
-    /// <summary>
-    /// Returns a HTTP response after executing a method with 1 parameters
-    /// </summary>   
-    public static async Task<HttpResponseData> CreateResponse<T>(this HttpRequestData request, Func<T, Task<Result>> func, T param)
-    {
-        var logger = request.FunctionContext.GetLogger(request.FunctionContext.FunctionDefinition.Name);
-        logger?.LogInformation($"Executing {request.FunctionContext.FunctionDefinition.Name}");
-        var result = await func(param);
-        return await CreateResponseAsync(request, result);
-    }
-
 
 
     /// <summary>
     /// Returns a HTTP response after executing a method with 1 parameters
     /// </summary>   
-    public static async Task<HttpResponseData> CreateResponse<T, TResult>(this HttpRequestData request, Func<T, Task<Result<TResult>>> func, T param)
+    public static async Task<HttpResponseData> CreateResponse<T>(this HttpRequestData request,  Func<T, Task<Result>> func, T param, Action<Response> setResponseLinks = null)
     {
         var logger = request.FunctionContext.GetLogger(request.FunctionContext.FunctionDefinition.Name);
         logger?.LogInformation($"Executing {request.FunctionContext.FunctionDefinition.Name}");
         var result = await func(param);
-        return await CreateResponseAsync(request, result);
+        return await CreateResponseAsync(request, result, setResponseLinks);
+    }
+
+
+
+    /// <summary>
+    /// Returns a HTTP response after executing a method with 1 parameters
+    /// </summary>   
+    public static async Task<HttpResponseData> CreateResponse<T, TResult>(this HttpRequestData request, Func<T, Task<Result<TResult>>> func, T param, Action<Response<TResult>> setResponseLinks = null)
+    {
+        var logger = request.FunctionContext.GetLogger(request.FunctionContext.FunctionDefinition.Name);
+        logger?.LogInformation($"Executing {request.FunctionContext.FunctionDefinition.Name}");
+        var result = await func(param);
+        return await CreateResponseAsync(request, result, setResponseLinks);
     }
 
 
     /// <summary>
     /// Returns a HTTP response after executing a method with 2 parameters
     /// </summary>     
-    public static async Task<HttpResponseData> CreateResponse<T1, T2, TResult>(this HttpRequestData request, Func<T1, T2, Task<Result<TResult>>> func, T1 param1, T2 param2)
+    public static async Task<HttpResponseData> CreateResponse<T1, T2, TResult>(this HttpRequestData request,  Func<T1, T2, Task<Result<TResult>>> func, T1 param1, T2 param2, Action<Response<TResult>> setResponseLinks = null)
     {
         var logger = request.FunctionContext.GetLogger(request.FunctionContext.FunctionDefinition.Name);
         logger?.LogInformation($"Executing {request.FunctionContext.FunctionDefinition.Name}");
         var result = await func(param1, param2);
-        return await CreateResponseAsync(request, result);
+        return await CreateResponseAsync(request, result, setResponseLinks);
     }
 
 

@@ -94,5 +94,30 @@
                 this.dataAccess.CloseDatabase();
             }
         }
+
+
+        /// <inheritdoc/>     
+        public async Task<Result> DeleteItemAsync(Guid itemId)
+        {
+            try
+            {
+                this.dataAccess.OpenDatabase();
+                this.logger?.LogInformation("Executing ItemsBusinessLogic.DeleteItemAsync");
+                //var item = await dataAccess.de(itemId);
+                return new Result(true);
+            }
+            catch (Exception ex)
+            {
+                logger?.LogError(ex.Message);
+                return new Result(false, ex.Message);
+            }
+            finally
+            {
+                this.dataAccess.CloseDatabase();
+            }
+        }
+
+
+        
     }
 }

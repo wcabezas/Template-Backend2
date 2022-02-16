@@ -29,5 +29,11 @@ namespace Template.Common.BusinessLogic
         /// Gets all the items
         /// </summary>        
         Task<Result<Item[]>> LoadItemsAsync();
+
+
+        /// <summary>
+        /// Deletes an item
+        /// </summary>
+        Task<Result> DeleteItemAsync(Guid itemId);
     }
 }

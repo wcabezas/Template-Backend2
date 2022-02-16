@@ -1,4 +1,6 @@
-﻿namespace Template.Common.Models
+﻿using Newtonsoft.Json;
+
+namespace Template.Common.Models
 {
     /// <summary>
     /// Envelop the API response to add extra details
@@ -18,13 +20,17 @@
         public string Message { get; set; }
 
 
+        [JsonProperty("_links")]
+        public ResponseLink[] Links { get; set; }
+
+
         /// <summary>
         /// Empty constructor
         /// </summary>
         public Response()
-        {
+            {
 
-        }
+            }
 
 
         /// <summary>

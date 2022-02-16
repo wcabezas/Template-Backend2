@@ -53,7 +53,7 @@ namespace Template.SqlDataAccess
             if (this.config != null)
             {
                 var connectionString = config.GetConnectionString("SqlConnectionString");              
-                optionsBuilder.UseSqlServer(connectionString);                
+                optionsBuilder.UseSqlServer(connectionString);
             }
             else
             {
