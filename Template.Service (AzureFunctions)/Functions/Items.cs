@@ -9,6 +9,7 @@ using Template.Common.Models;
 using Template.Service.Extensions;
 using System;
 using System.Collections.Generic;
+using Microsoft.OpenApi.Models;
 
 namespace Template.Service.Functions
 {
@@ -35,7 +36,7 @@ namespace Template.Service.Functions
         /// <summary>
         /// Submits a new item
         /// </summary>       
-        [OpenApiOperation("Items", "Create a new item", Description = "Creates a new item on the data storage")]
+        [OpenApiOperation("SubmitItem", new[] { "Items" }, Description = "Creates a new item on the data storage")]
         [OpenApiRequestBody("application/json", typeof(Item), Required = true, Description = "Item object")]
         [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Result<Item>), Description = "The new item")]
         [Function(nameof(SubmitItemAsync))]
@@ -45,10 +46,10 @@ namespace Template.Service.Functions
             return await request.CreateResponse(this.businessLogic.AddItemAsync, request.DeserializeBody<Item>(), response =>
             {
                 // Adds the proper hateoas links to this item
-                response.Links = new Dictionary<string, string>();
-                response.Links.Add("self", $"/items/{response.Data.ItemId}");
-                response.Links.Add("delete", $"/items/{response.Data.ItemId}");
-                response.Links.Add("put", $"/items");
+                response.Data.Links = new Dictionary<string, string>();
+                response.Data.Links.Add("self", $"/items/{response.Data.ItemId}");
+                response.Data.Links.Add("delete", $"/items/{response.Data.ItemId}");
+                response.Data.Links.Add("put", $"/items");
             });
         }
 
@@ -56,7 +57,7 @@ namespace Template.Service.Functions
         /// <summary>
         /// Submits a new item
         /// </summary>       
-        [OpenApiOperation("Items", "Updates an item", Description = "Updates and item on the data storage")]
+        [OpenApiOperation("UpdateItem", new[] { "Items" }, Description = "Updates and item on the data storage")]
         [OpenApiRequestBody("application/json", typeof(Item), Required = true, Description = "Item object")]
         [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Result<Item>), Description = "The item to update")]
         [Function(nameof(UpdateItemAsync))]
@@ -66,10 +67,10 @@ namespace Template.Service.Functions
             return await request.CreateResponse(this.businessLogic.AddItemAsync, request.DeserializeBody<Item>(), response =>
             {
                 // Adds the proper hateoas links to this item
-                response.Links = new Dictionary<string, string>();
-                response.Links.Add("self", $"/items/{response.Data.ItemId}");
-                response.Links.Add("delete", $"/items/{response.Data.ItemId}");
-                response.Links.Add("put", $"/items");              
+                response.Data.Links = new Dictionary<string, string>();
+                response.Data.Links.Add("self", $"/items/{response.Data.ItemId}");
+                response.Data.Links.Add("delete", $"/items/{response.Data.ItemId}");
+                response.Data.Links.Add("put", $"/items");              
             });
         }
 
@@ -87,9 +88,9 @@ namespace Template.Service.Functions
             return await request.CreateResponse(this.businessLogic.LoadItemAsync, itemId, response =>
             {
                 // Adds the proper hateoas links to this item
-                response.Links = new Dictionary<string, string>();
-                response.Links.Add("self", $"/items/{itemId}");
-                response.Links.Add("delete", $"/items/{itemId}");              
+                response.Data.Links = new Dictionary<string, string>();
+                response.Data.Links.Add("self", $"/items/{itemId}");
+                response.Data.Links.Add("delete", $"/items/{itemId}");              
             });
         }
 
@@ -114,10 +115,11 @@ namespace Template.Service.Functions
         /// Returns a list of items
         /// </summary>        
         [OpenApiOperation("GetItems", new[] { "Items" }, Description = "Return all the items from the data storage")]
+        [OpenApiParameter("page", In = ParameterLocation.Query, Description = "Page index")]
         [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Result<Item[]>), Description = "A result object containing a collection of items")]
         [Function(nameof(Items.GetItemsAsync))]
         public async Task<HttpResponseData> GetItemsAsync(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "items")] HttpRequestData request)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "items")] HttpRequestData request, int page)
         {
             return await request.CreateResponse(this.businessLogic.LoadItemsAsync, response =>
             {
@@ -128,11 +130,9 @@ namespace Template.Service.Functions
                     item.Links.Add("self", $"/items/{item.ItemId}");
                     item.Links.Add("delete", $"/items/{item.ItemId}");
                 }
-                //response.Links = new ResponseLink[]
-                //{
-                //    new ResponseLink("nextPage", "/items"),
-                //};
-                
+                response.Links = new Dictionary<string, string>();
+                response.Links.Add("nextPage", $"/items?page={page + 1}");
+
             });
         }
     }

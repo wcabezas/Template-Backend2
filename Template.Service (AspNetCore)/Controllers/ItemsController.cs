@@ -55,7 +55,7 @@
         public async Task<IActionResult> SubmitItemAsync(
            [FromBody] Item item)
         {
-            return await Execute(this.itemsBusinesLogic.AddUpdateItemAsync, item);
+            return await Execute(this.itemsBusinesLogic.AddItemAsync, item);
         }
     }
 }
