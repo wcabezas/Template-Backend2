@@ -1,6 +1,5 @@
 ﻿namespace Template.BusinessLogic
 {
-    using System.Collections.Generic;
     using Template.Models;
     using System.Threading.Tasks;
     using Template.Common.BusinessLogic;
@@ -8,6 +7,7 @@
     using Microsoft.Extensions.Logging;
     using System;
     using Template.Common.Models;
+    using Template.Common.Providers;
 
     /// <summary>
     /// Items Business Logic methods
@@ -16,26 +16,55 @@
     {
         private readonly ILogger<ItemsBusinessLogic> logger;
         private readonly IItemsDataAccess dataAccess;
-
+        private readonly ISessionProvider sessionProvider;
 
         /// <summary>
         /// Gets by DI the dependeciees
         /// </summary>
         /// <param name="dataAccess"></param>
-        public ItemsBusinessLogic(IItemsDataAccess dataAccess, ILogger<ItemsBusinessLogic> logger)
+        public ItemsBusinessLogic(IItemsDataAccess dataAccess,   ISessionProvider sessionProvider, ILogger<ItemsBusinessLogic> logger)
         {
             this.logger = logger;
             this.dataAccess = dataAccess;
+            this.sessionProvider = sessionProvider;
         }
 
 
         /// <inheritdoc/>   
-        public async Task<Result<Item>> AddUpdateItemAsync(Item request)
+        public async Task<Result<Item>> AddItemAsync(Item request)
         {
             try
             {
                 this.dataAccess.OpenDatabase();
-                this.logger?.LogInformation("Executing ItemsBusinessLogic.AddUpdateItemAsync");
+                this.logger?.LogInformation("Executing ItemsBusinessLogic.AddItemAsync");
+                request.CreatedBy = this.sessionProvider?.Username;
+                request.Created = DateTimeOffset.Now;
+                request.UpdatedBy = this.sessionProvider?.Username;
+                request.Updated = DateTimeOffset.Now;
+                var item = await dataAccess.AddUpdateItemAsync(request);
+                return new Result<Item>(item);
+            }
+            catch (Exception ex)
+            {
+                logger?.LogError(ex.Message);
+                return new Result<Item>(ex.Message);
+            }
+            finally
+            {
+                this.dataAccess.CloseDatabase();
+            }
+        }
+
+
+        /// <inheritdoc/>   
+        public async Task<Result<Item>> UpdateItemAsync(Item request)
+        {
+            try
+            {
+                this.dataAccess.OpenDatabase();
+                this.logger?.LogInformation("Executing ItemsBusinessLogic.UpdateItemAsync");
+                request.UpdatedBy = this.sessionProvider?.Username;
+                request.Updated = DateTimeOffset.Now;
                 var item = await dataAccess.AddUpdateItemAsync(request);
                 return new Result<Item>(item);
             }
@@ -103,8 +132,8 @@
             {
                 this.dataAccess.OpenDatabase();
                 this.logger?.LogInformation("Executing ItemsBusinessLogic.DeleteItemAsync");
-                //var item = await dataAccess.de(itemId);
-                return new Result(true);
+                var result = await dataAccess.DeleteItemAsync(itemId);
+                return new Result(result);
             }
             catch (Exception ex)
             {
@@ -116,8 +145,5 @@
                 this.dataAccess.CloseDatabase();
             }
         }
-
-
-        
     }
 }

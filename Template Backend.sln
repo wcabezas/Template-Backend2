@@ -34,6 +34,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.Service (AzureFunc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.SqlDataAccess", "Template.SqlDataAccess\Template.SqlDataAccess.csproj", "{BF5F9B37-7643-4D3A-A2FE-6C8816C60ADC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Template.Helpers", "Template.Helpers\Template.Helpers.csproj", "{C630D8D4-236B-4FF1-BAC9-E01CBB09520F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{BF5F9B37-7643-4D3A-A2FE-6C8816C60ADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF5F9B37-7643-4D3A-A2FE-6C8816C60ADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF5F9B37-7643-4D3A-A2FE-6C8816C60ADC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C630D8D4-236B-4FF1-BAC9-E01CBB09520F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C630D8D4-236B-4FF1-BAC9-E01CBB09520F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C630D8D4-236B-4FF1-BAC9-E01CBB09520F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C630D8D4-236B-4FF1-BAC9-E01CBB09520F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

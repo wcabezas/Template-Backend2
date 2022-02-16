@@ -3,5 +3,8 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "StorageConnectionString": "UseDevelopmentStorage=true"
+  },
+  "ConnectionStrings": {
+    "SqLiteDatabase": "DataSource = Items"
   }
 }

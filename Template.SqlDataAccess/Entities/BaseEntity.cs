@@ -17,5 +17,8 @@ namespace Template.SqlDataAccess.Entities
 
         [Column(TypeName = "nvarchar(250)")]
         public string UpdatedBy { get; set; }
+
+        public bool Deleted { get; set; }
+
     }
 }

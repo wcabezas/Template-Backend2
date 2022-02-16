@@ -35,13 +35,13 @@ namespace Template.Service.Functions
         /// Submits a new item
         /// </summary>       
         [OpenApiOperation("Items", "Create a new item", Description = "Creates a new item on the data storage")]
-        [OpenApiRequestBody("application/json", typeof(Request<Item>), Required = true, Description = "Item object")]
+        [OpenApiRequestBody("application/json", typeof(Item), Required = true, Description = "Item object")]
         [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Result<Item>), Description = "The new item")]
         [Function(nameof(SubmitItemAsync))]
         public async Task<HttpResponseData> SubmitItemAsync(
          [HttpTrigger(AuthorizationLevel.Function, "post", Route = "items")] HttpRequestData request)
         {
-            return await request.CreateResponse(this.businessLogic.AddUpdateItemAsync, request.DeserializeBody<Item>(), response =>
+            return await request.CreateResponse(this.businessLogic.AddItemAsync, request.DeserializeBody<Item>(), response =>
             {
                 // Adds the proper hateoas links to this item
                 response.Links = new ResponseLink[]
@@ -54,14 +54,37 @@ namespace Template.Service.Functions
         }
 
 
+        /// <summary>
+        /// Submits a new item
+        /// </summary>       
+        [OpenApiOperation("Items", "Updates an item", Description = "Updates and item on the data storage")]
+        [OpenApiRequestBody("application/json", typeof(Item), Required = true, Description = "Item object")]
+        [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Result<Item>), Description = "The item to update")]
+        [Function(nameof(UpdateItemAsync))]
+        public async Task<HttpResponseData> UpdateItemAsync(
+         [HttpTrigger(AuthorizationLevel.Function, "put", Route = "items")] HttpRequestData request)
+        {
+            return await request.CreateResponse(this.businessLogic.AddItemAsync, request.DeserializeBody<Item>(), response =>
+            {
+                // Adds the proper hateoas links to this item
+                response.Links = new ResponseLink[]
+                {
+                    new ResponseLink("self", $"/items/{response.Data.ItemId}"),
+                    new ResponseLink("delete", $"/items/{response.Data.ItemId}")
+                };
+
+            });
+        }
+
 
         /// <summary>
         /// Returns an item
         /// </summary>        
         [OpenApiOperation("GetItem", new[] { "Items" }, Description = "Return an items from the data storage")]
+        [OpenApiParameter("itemId", Type = typeof(Guid), Required = true, Description = "Item Id to retrieve")]
         [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Result<Item[]>), Description = "A result object containing an items")]
-        [Function(nameof(Items.GetItemsAsync))]
-        public async Task<HttpResponseData> GetItemsAsync(
+        [Function(nameof(Items.GetItemAsync))]
+        public async Task<HttpResponseData> GetItemAsync(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "items/{itemId}")] HttpRequestData request, Guid itemId)
         {
             return await request.CreateResponse(this.businessLogic.LoadItemAsync, itemId, response =>
@@ -82,8 +105,9 @@ namespace Template.Service.Functions
         /// Returns an item
         /// </summary>        
         [OpenApiOperation("DeleteItem", new[] { "Items" }, Description = "Deletes an from the data storage")]
+        [OpenApiParameter("itemId", Type=typeof(Guid), Required = true, Description = "Item Id to remove")]
         [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Result), Description = "The result of removing the element")]
-        [Function(nameof(Items.GetItemsAsync))]
+        [Function(nameof(Items.DeleteItemsAsync))]
         public async Task<HttpResponseData> DeleteItemsAsync(
             [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "items/{itemId}")] HttpRequestData request, Guid itemId)
         {
