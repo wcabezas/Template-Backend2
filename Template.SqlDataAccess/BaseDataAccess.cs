@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Template.Common.DataAccess;
 
-namespace Template.DataAccess
+namespace Template.SqlDataAccess
 {
     /// <summary>
     /// Base class for all database classes

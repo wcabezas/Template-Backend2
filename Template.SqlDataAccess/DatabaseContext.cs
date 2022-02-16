@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Template.DataAccess.Entities;
-using Template.Models;
+using Template.SqlDataAccess.Entities;
 
-namespace Template.DataAccess
+namespace Template.SqlDataAccess
 {
     /// <summary>
     /// SQL Data context
@@ -50,20 +49,26 @@ namespace Template.DataAccess
         {
             if (optionsBuilder == null) return;
             base.OnConfiguring(optionsBuilder);
-
+            var connectionString = string.Empty;
             if (this.config != null)
             {
-                var connectionString = config.GetConnectionString("SqlConnectionString");              
-                optionsBuilder.UseSqlServer(connectionString);                
+                // Setup sqlite (only for testing, not to be used ina project)
+                connectionString = config.GetConnectionString("SqLiteDatabase");             
+                optionsBuilder.UseSqlite(connectionString);
+
+                // For a real project, remove the SQlite support and configure Azure SQL or CosmosDB
+                // connectionString = config.GetConnectionString("SqlDatabase");
+                // optionsBuilder.UseSqlServer(connectionString);             
             }
-            else
-            {
-                if (!optionsBuilder.IsConfigured)
-                {
-                    // This is used by EF Core when scalfolding
-                    optionsBuilder.UseSqlServer(@"Server=.;Initial Catalog=.;Persist Security Info=False;User ID=.;Password=.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-                }
-            }
+
+            // This can be used by EF Core when scalfolding SQL
+            //else
+            //{
+            //    if (!optionsBuilder.IsConfigured)
+            //    {
+            //        //optionsBuilder.UseSqlServer("connectionString");
+            //    }
+            //}
         }
 
 
@@ -72,7 +77,7 @@ namespace Template.DataAccess
         ///// </summary>
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
-        //    // Use hasdata to pre-propulate the db     
+        //    // Use hasdata to pre-propulate the database     
         //}
     }
 }

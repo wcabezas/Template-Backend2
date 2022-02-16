@@ -1,4 +1,4 @@
-﻿namespace Template.DataAccess.Entities
+﻿namespace Template.SqlDataAccess.Entities
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -7,9 +7,9 @@
     
 
     /// <summary>
-    /// Sample item to save on the storage
+    /// Sample item 
     /// </summary>
-    public class ItemEntity
+    public class ItemEntity : BaseEntity
     { 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -28,6 +28,10 @@
             {
                 ItemId = this.ItemId,
                 Text = this.Text,
+                Created = this.Created,
+                CreatedBy = this.CreatedBy,
+                Updated = this.Updated,
+                UpdatedBy = this.UpdatedBy,
             };
         }
 
@@ -41,6 +45,10 @@
             {             
                 ItemId = item.ItemId,
                 Text = item.Text,
+                Created = item.Created,
+                CreatedBy = item.CreatedBy,
+                Updated = item.Updated,
+                UpdatedBy = item.UpdatedBy,
             };
         }
 

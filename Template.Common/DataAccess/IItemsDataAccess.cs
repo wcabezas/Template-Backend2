@@ -22,16 +22,14 @@
 
 
         /// <summary>
-        /// Adds an item to a queue 
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        Task<bool> QueueItemAsync(Item item);
-
-
-        /// <summary>
         /// Returns an item
         /// </summary>
         Task<Item> LoadItemAsync(Guid itemId);
+
+
+        /// <summary>
+        /// Removes an item
+        /// </summary>      
+        Task<bool> DeleteItemAsync(Guid itemId);
     }
 }

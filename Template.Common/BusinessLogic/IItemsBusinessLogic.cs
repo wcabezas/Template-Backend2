@@ -12,9 +12,15 @@ namespace Template.Common.BusinessLogic
     public interface IItemsBusinessLogic
     {
         /// <summary>
-        /// Adds or update an item
+        /// Adds an item
         /// </summary>        
-        Task<Result<Item>> AddUpdateItemAsync(Item request);
+        Task<Result<Item>> AddItemAsync(Item request);
+
+
+        /// <summary>
+        /// Updates an item
+        /// </summary>        
+        Task<Result<Item>> UpdateItemAsync(Item request);
 
 
         /// <summary>
@@ -29,5 +35,11 @@ namespace Template.Common.BusinessLogic
         /// Gets all the items
         /// </summary>        
         Task<Result<Item[]>> LoadItemsAsync();
+
+
+        /// <summary>
+        /// Deletes an item
+        /// </summary>
+        Task<Result> DeleteItemAsync(Guid itemId);
     }
 }

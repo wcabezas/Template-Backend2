@@ -27,9 +27,12 @@ namespace Template.Service.Middleware
             {
                 if (context.BindingContext.BindingData is IReadOnlyDictionary<string, object> bindingData && bindingData.ContainsKey("headers"))
                 {
+                    // Takes the username form the header or uses a default one
+                    // On a real project the username should be mandatory and if not present return a BadRequest error
+                    var defaultUsername = "admin";
                     var headers = JsonConvert.DeserializeObject<Dictionary<string, string>>(bindingData["headers"].ToString());
                     var sessionProvider = context.InstanceServices.GetRequiredService<ISessionProvider>();
-                    sessionProvider.Setup(headers.ContainsKey("Username") ? headers["Username"].ToString() : string.Empty);
+                    sessionProvider.Setup(headers.ContainsKey("Username") ? headers["Username"].ToString() : defaultUsername);
                 }
                 await next(context);
             }
