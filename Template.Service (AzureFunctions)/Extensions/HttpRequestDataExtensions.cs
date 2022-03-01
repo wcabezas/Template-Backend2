@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using Azure.Core.Serialization;
 
 namespace Template.Service.Extensions
 {
@@ -15,7 +16,23 @@ namespace Template.Service.Extensions
     /// to create the HTTP Response
     /// </summary>
     public static class HttpRequestDataExtensions
-{
+    {
+
+
+        private static void LogOperation(this HttpRequestData request,  string message)
+        {
+            try
+            {
+                var logger = request?.FunctionContext?.GetLogger(request?.FunctionContext?.FunctionDefinition?.Name);
+                logger?.LogInformation(message);
+            }
+            catch
+            {
+                // 
+            }            
+        }
+
+
 
     /// <summary>
     /// Creates a http response based on the result
@@ -25,7 +42,7 @@ namespace Template.Service.Extensions
         var responseData = request.CreateResponse(result.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
         var response = new Response(result.Success, result.Message);
         if (setResponseLinks != null) setResponseLinks(response);
-        await responseData.WriteAsJsonAsync(response).ConfigureAwait(false);
+        await responseData.WriteAsJsonAsync(response, new NewtonsoftJsonObjectSerializer()).ConfigureAwait(false);
         return responseData;
     }
 
@@ -38,7 +55,8 @@ namespace Template.Service.Extensions
         var responseData = request.CreateResponse(result.Success ? HttpStatusCode.OK : HttpStatusCode.BadRequest);
         var response = new Response<TResult>(result.Success, result.Data, result.Message);
         if (setResponseLinks != null) setResponseLinks(response);
-        await responseData.WriteAsJsonAsync(response).ConfigureAwait(false);
+
+        await responseData.WriteAsJsonAsync(response, new NewtonsoftJsonObjectSerializer()).ConfigureAwait(false);
         return responseData;
     }
 
@@ -49,8 +67,7 @@ namespace Template.Service.Extensions
     /// </summary>   
     public static async Task<HttpResponseData> CreateResponse<TResult>(this HttpRequestData request, Func<Task<Result<TResult>>> func, Action<Response<TResult>> setResponseLinks = null)
     {
-        var logger = request.FunctionContext.GetLogger(request.FunctionContext.FunctionDefinition.Name);
-        logger?.LogInformation($"Executing {request.FunctionContext.FunctionDefinition.Name}");
+        request.LogOperation($"Executing {request.FunctionContext?.FunctionDefinition?.Name}");
         var result = await func();
         return await CreateResponseAsync(request, result, setResponseLinks);
     }
@@ -74,8 +91,7 @@ namespace Template.Service.Extensions
     /// </summary>   
     public static async Task<HttpResponseData> CreateResponse<T, TResult>(this HttpRequestData request, Func<T, Task<Result<TResult>>> func, T param, Action<Response<TResult>> setResponseLinks = null)
     {
-        var logger = request.FunctionContext.GetLogger(request.FunctionContext.FunctionDefinition.Name);
-        logger?.LogInformation($"Executing {request.FunctionContext.FunctionDefinition.Name}");
+        request.LogOperation($"Executing {request.FunctionContext?.FunctionDefinition?.Name}");
         var result = await func(param);
         return await CreateResponseAsync(request, result, setResponseLinks);
     }

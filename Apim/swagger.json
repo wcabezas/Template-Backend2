@@ -1,0 +1,181 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Azure Functions Template API",
+    "description": "A sample API that runs on Azure Functions 3.x with OpenAPI specification.",
+    "termsOfService": "https://www.arkanosoft.com",
+    "contact": {
+      "name": "Arkano",
+      "url": "mailto:soporte@arkanosoft.com",
+      "email": "soporte@arkanosoft.com"
+    },
+    "version": "3.0.0"
+  },
+  "host": "localhost:7071",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/items/start": {
+      "post": {
+        "tags": [
+          "Starts a background process"
+        ],
+        "description": "Starts a backgroundasyncrhronous process",
+        "operationId": "Start",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of String",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/items": {
+      "post": {
+        "tags": [
+          "Create a new item"
+        ],
+        "description": "Creates a new item on the data storage",
+        "operationId": "Items",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/request_item"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created item",
+            "schema": {
+              "$ref": "#/definitions/response_item"
+            },
+            "x-ms-summary": "Created item"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Returns all items",
+          "Return all the items from the data storage"
+        ],
+        "operationId": "Items",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A result object containing a collection of items",
+            "schema": {
+              "$ref": "#/definitions/result_list`1"
+            },
+            "x-ms-summary": "A collection of items"
+          }
+        }
+      }
+    },
+    "/queue": {
+      "post": {
+        "tags": [
+          "Add an item to a queue"
+        ],
+        "description": "Adds an item to a queue",
+        "operationId": "Queue",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/request_item"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A response with the added item",
+            "schema": {
+              "$ref": "#/definitions/response_item"
+            },
+            "x-ms-summary": "A response object"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "item": {
+      "type": "object",
+      "properties": {
+        "itemId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "request_item": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/item"
+        }
+      }
+    },
+    "response_item": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/item"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "result_list`1": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/item"
+          }
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
