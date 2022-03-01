@@ -10,12 +10,12 @@
         /// <summary>
         /// Process success indicator
         /// </summary>
-        public bool Success { get; protected set; }
+        public bool Success { get; set; }
 
         /// <summary>
         /// Message process
         /// </summary>
-        public string Message { get; protected set; }
+        public string Message { get; set; }
 
 
         /// <summary>
@@ -59,6 +59,12 @@
         /// Actual endoint response data
         /// </summary>
         public T Data { get; set; }
+
+
+        public Result()
+        {
+
+        }
 
 
         /// <summary>
