@@ -11,6 +11,7 @@ using System.IO;
 using Template.Common.BusinessLogic;
 using Template.Common.DataAccess;
 using Template.SqlDataAccess;
+using Template.Common.Providers;
 
 namespace Template.Service
 {
@@ -48,9 +49,11 @@ namespace Template.Service
             });
 
             // Add all the dependencies
+            services.AddScoped<ISessionProvider, SessionProvider>();
             services.AddScoped<IItemsDataAccess, ItemsDataAccess>();
             services.AddScoped<IItemsBusinessLogic, ItemsBusinessLogic>();
             services.AddScoped<IDatabaseConnection<DatabaseContext>, DatabaseConnection>();
+           
             services.AddControllers();
 
             // Register the Swagger generator, defining 1 or more Swagger documents

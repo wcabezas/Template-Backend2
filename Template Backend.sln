@@ -36,7 +36,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.SqlDataAccess", "T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.Helpers", "Template.Helpers\Template.Helpers.csproj", "{C630D8D4-236B-4FF1-BAC9-E01CBB09520F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Template.Service.Test (AzureFunctions)", "Template.Service.Test (AzureFunctions)\Template.Service.Test (AzureFunctions).csproj", "{E17AE35B-1129-4AE4-977E-DC8C0E30A5E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.Service.Test (AzureFunctions)", "Template.Service.Test (AzureFunctions)\Template.Service.Test (AzureFunctions).csproj", "{E17AE35B-1129-4AE4-977E-DC8C0E30A5E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soli.IntranetService", "..\..\BCP\Soli Backend\Soli.IntranetService\Soli.IntranetService.csproj", "{C1115D03-EFEB-4D42-B472-9E7026BCA106}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +82,10 @@ Global
 		{E17AE35B-1129-4AE4-977E-DC8C0E30A5E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E17AE35B-1129-4AE4-977E-DC8C0E30A5E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E17AE35B-1129-4AE4-977E-DC8C0E30A5E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1115D03-EFEB-4D42-B472-9E7026BCA106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1115D03-EFEB-4D42-B472-9E7026BCA106}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1115D03-EFEB-4D42-B472-9E7026BCA106}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1115D03-EFEB-4D42-B472-9E7026BCA106}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
