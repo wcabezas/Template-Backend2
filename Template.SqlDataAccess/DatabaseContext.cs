@@ -12,7 +12,8 @@ namespace Template.SqlDataAccess
         private IConfiguration config;
        
         public DbSet<ItemEntity> Items { get; set; }
-     
+        public DbSet<PruebaEntity> Pruebas { get; set; }
+
 
         /// <summary>
         /// EF Core constructor

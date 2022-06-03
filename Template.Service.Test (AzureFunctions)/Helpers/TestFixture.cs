@@ -22,6 +22,8 @@ namespace Template.Service.Tests.Helpers
         /// </summary>
         public Template.Service.Functions.Items ItemsService { get; set; }
 
+        public Template.Service.Functions.Pruebas PruebasService { get; set; }
+
 
         /// <summary>
         /// Setups the server, http client and host proceess
@@ -43,12 +45,17 @@ namespace Template.Service.Tests.Helpers
                 services.AddScoped<ISessionProvider, SessionProvider>();
                 services.AddScoped<IItemsDataAccess, ItemsDataAccess>();
                 services.AddScoped<IItemsBusinessLogic, ItemsBusinessLogic>();
+                services.AddScoped<IPruebasDataAccess, PruebasDataAccess>();
+                services.AddScoped<IPruebasBusinessLogic, PruebasBusinessLogic>();
                 services.AddScoped<IDatabaseConnection<DatabaseContext>, DatabaseConnection>();
             })
             .Build();
          
             var itemsBUsinessLogic = host.Services.GetRequiredService<IItemsBusinessLogic>();
             this.ItemsService = new Template.Service.Functions.Items(itemsBUsinessLogic);
+
+            var pruebasBUsinessLogic = host.Services.GetRequiredService<IPruebasBusinessLogic>();
+            this.PruebasService = new Template.Service.Functions.Pruebas(pruebasBUsinessLogic);
         }
 
 

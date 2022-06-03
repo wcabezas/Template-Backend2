@@ -38,4 +38,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Template\Service\Functions\" />
+  </ItemGroup>
+
 </Project>

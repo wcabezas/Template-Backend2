@@ -23,6 +23,7 @@ namespace Template.Common.Models
 
         [JsonProperty("_links")]
         public Dictionary<string, string> Links { get; set; }
+        public object Data { get; set; }
 
 
         /// <summary>
@@ -55,7 +56,7 @@ namespace Template.Common.Models
         /// <summary>
         /// Actual endoint response data
         /// </summary>
-        public T Data { get; set; }
+        public new T Data { get; set; }
 
 
         /// <summary>
