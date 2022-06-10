@@ -54,6 +54,8 @@ namespace Template.Service
             services.AddScoped<IItemsBusinessLogic, ItemsBusinessLogic>();
             services.AddScoped<IPruebasDataAccess, PruebasDataAccess>();
             services.AddScoped<IPruebasBusinessLogic, PruebasBusinessLogic>();
+            services.AddScoped<ISolicitudesDataAccess, SolicitudesDataAccess>();
+            services.AddScoped<ISolicitudesBusinessLogic, SolicitudesBusinessLogic>();
             services.AddScoped<IDatabaseConnection<DatabaseContext>, DatabaseConnection>();
            
             services.AddControllers();

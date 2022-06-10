@@ -12,17 +12,17 @@
     /// <summary>
     /// Items Business Logic methods
     /// </summary>
-    public class PruebasBusinessLogic : IPruebasBusinessLogic
+    public class SolicitudesBusinessLogic : ISolicitudesBusinessLogic
     {
-        private readonly ILogger<PruebasBusinessLogic> logger;
-        private readonly IPruebasDataAccess dataAccess;
+        private readonly ILogger<SolicitudesBusinessLogic> logger;
+        private readonly ISolicitudesDataAccess dataAccess;
         private readonly ISessionProvider sessionProvider;
 
         /// <summary>
         /// Gets by DI the dependeciees
         /// </summary>
         /// <param name="dataAccess"></param>
-        public PruebasBusinessLogic(IPruebasDataAccess dataAccess,   ISessionProvider sessionProvider, ILogger<PruebasBusinessLogic> logger)
+        public SolicitudesBusinessLogic(ISolicitudesDataAccess dataAccess, ISessionProvider sessionProvider, ILogger<SolicitudesBusinessLogic> logger)
         {
             this.logger = logger;
             this.dataAccess = dataAccess;
@@ -31,20 +31,20 @@
 
 
         /// <inheritdoc/>   
-        public async Task<Result<Prueba>> AddPruebaAsync(Prueba request)
+        public async Task<Result<Solicitud>> AddSolicitudAsync(Solicitud request)
         {
             try
             {
                 this.dataAccess.OpenDatabase();
-                this.logger?.LogInformation("Executing PruebasBusinessLogic.AddPruebaAsync");                
+                this.logger?.LogInformation("Executing SolicitudesBusinessLogic.AddSolicitudAsync");
                 request.FechaCreacion = DateTimeOffset.Now;
-                var prueba = await dataAccess.AddUpdatePruebaAsync(request);
-                return new Result<Prueba>(prueba);
+                var solicitud = await dataAccess.AddUpdateSolicitudAsync(request);
+                return new Result<Solicitud>(solicitud);
             }
             catch (Exception ex)
             {
                 logger?.LogError(ex.Message);
-                return new Result<Prueba>(ex.Message);
+                return new Result<Solicitud>(ex.Message);
             }
             finally
             {
@@ -54,19 +54,19 @@
 
 
         /// <inheritdoc/>   
-        public async Task<Result<Prueba>> UpdatePruebaAsync(Prueba request)
+        public async Task<Result<Solicitud>> UpdateSolicitudAsync(Solicitud request)
         {
             try
             {
                 this.dataAccess.OpenDatabase();
-                this.logger?.LogInformation("Executing PruebasBusinessLogic.UpdatePruebaAsync");
-                var prueba = await dataAccess.AddUpdatePruebaAsync(request);
-                return new Result<Prueba>(prueba);
+                this.logger?.LogInformation("Executing SolicitudesBusinessLogic.UpdateSolicitudAsync");
+                var solicitud = await dataAccess.AddUpdateSolicitudAsync(request);
+                return new Result<Solicitud>(solicitud);
             }
             catch (Exception ex)
             {
                 logger?.LogError(ex.Message);
-                return new Result<Prueba>(ex.Message);
+                return new Result<Solicitud>(ex.Message);
             }
             finally
             {
@@ -76,19 +76,19 @@
 
 
         /// <inheritdoc/>     
-        public async Task<Result<Prueba[]>> LoadPruebasAsync()
+        public async Task<Result<Solicitud[]>> LoadSolicitudesAsync()
         {
             try
             {
                 this.dataAccess.OpenDatabase();
-                this.logger?.LogInformation("Executing PruebasBusinessLogic.LoadPruebasAsync");
-                var pruebas = await dataAccess.LoadPruebasAsync();
-                return new Result<Prueba[]>(pruebas.ToArray());
+                this.logger?.LogInformation("Executing SolicitudesBusinessLogic.LoadSolicitudesAsync");
+                var solicitudes = await dataAccess.LoadSolicitudesAsync();
+                return new Result<Solicitud[]>(solicitudes.ToArray());
             }
             catch (Exception ex)
             {
                 logger?.LogError(ex.Message);
-                return new Result<Prueba[]>(ex.Message);
+                return new Result<Solicitud[]>(ex.Message);
             }
             finally
             {
@@ -99,19 +99,19 @@
 
 
         /// <inheritdoc/>     
-        public async Task<Result<Prueba>> LoadPruebaAsync(Guid pruebaId)
+        public async Task<Result<Solicitud>> LoadSolicitudAsync(Guid solicitudId)
         {
             try
             {
                 this.dataAccess.OpenDatabase();
-                this.logger?.LogInformation("Executing PruebasBusinessLogic.LoadPruebaAsync");
-                var prueba = await dataAccess.LoadPruebaAsync(pruebaId);
-                return new Result<Prueba>(prueba);
+                this.logger?.LogInformation("Executing SolicitudesBusinessLogic.LoadSolicitudAsync");
+                var solicitud = await dataAccess.LoadSolicitudAsync(solicitudId);
+                return new Result<Solicitud>(solicitud);
             }
             catch (Exception ex)
             {
                 logger?.LogError(ex.Message);
-                return new Result<Prueba>(ex.Message);
+                return new Result<Solicitud>(ex.Message);
             }
             finally
             {
@@ -121,13 +121,13 @@
 
 
         /// <inheritdoc/>     
-        public async Task<Result> DeletePruebaAsync(Guid pruebaId)
+        public async Task<Result> DeleteSolicitudAsync(Guid solicitudId)
         {
             try
             {
                 this.dataAccess.OpenDatabase();
-                this.logger?.LogInformation("Executing PruebasBusinessLogic.DeletePruebaAsync");
-                var result = await dataAccess.DeletePruebaAsync(pruebaId);
+                this.logger?.LogInformation("Executing SolicitudesBusinessLogic.DeleteSolicitudAsync");
+                var result = await dataAccess.DeleteSolicitudAsync(solicitudId);
                 return new Result(result);
             }
             catch (Exception ex)

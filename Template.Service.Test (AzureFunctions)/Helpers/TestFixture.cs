@@ -24,6 +24,7 @@ namespace Template.Service.Tests.Helpers
 
         public Template.Service.Functions.Pruebas PruebasService { get; set; }
 
+        public Template.Service.Functions.Solicitudes SolicitudesService { get; set; }
 
         /// <summary>
         /// Setups the server, http client and host proceess
@@ -47,6 +48,8 @@ namespace Template.Service.Tests.Helpers
                 services.AddScoped<IItemsBusinessLogic, ItemsBusinessLogic>();
                 services.AddScoped<IPruebasDataAccess, PruebasDataAccess>();
                 services.AddScoped<IPruebasBusinessLogic, PruebasBusinessLogic>();
+                services.AddScoped<ISolicitudesDataAccess, SolicitudesDataAccess>();
+                services.AddScoped<ISolicitudesBusinessLogic, SolicitudesBusinessLogic>();
                 services.AddScoped<IDatabaseConnection<DatabaseContext>, DatabaseConnection>();
             })
             .Build();
@@ -56,6 +59,9 @@ namespace Template.Service.Tests.Helpers
 
             var pruebasBUsinessLogic = host.Services.GetRequiredService<IPruebasBusinessLogic>();
             this.PruebasService = new Template.Service.Functions.Pruebas(pruebasBUsinessLogic);
+
+            var solicitudesBUsinessLogic = host.Services.GetRequiredService<ISolicitudesBusinessLogic>();
+            this.SolicitudesService = new Template.Service.Functions.Solicitudes(solicitudesBUsinessLogic);
         }
 
 

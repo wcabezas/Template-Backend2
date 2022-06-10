@@ -46,10 +46,7 @@ namespace Template.Service.Functions
             return await request.CreateResponse(this.businessLogic.AddPruebaAsync, request.DeserializeBody<Prueba>(), response =>
             {
                 // Adds the proper hateoas links to this item
-                response.Data.Links = new Dictionary<string, string>();
-                response.Data.Links.Add("self", $"/items/{response.Data.PruebaId}");
-                response.Data.Links.Add("delete", $"/items/{response.Data.PruebaId}");
-                response.Data.Links.Add("put", $"/items");
+                
             });
         }
 
@@ -67,10 +64,7 @@ namespace Template.Service.Functions
             return await request.CreateResponse(this.businessLogic.AddPruebaAsync, request.DeserializeBody<Prueba>(), response =>
             {
                 // Adds the proper hateoas links to this item
-                response.Data.Links = new Dictionary<string, string>();
-                response.Data.Links.Add("self", $"/items/{response.Data.PruebaId}");
-                response.Data.Links.Add("delete", $"/items/{response.Data.PruebaId}");
-                response.Data.Links.Add("put", $"/items");              
+                             
             });
         }
 
@@ -88,9 +82,7 @@ namespace Template.Service.Functions
             return await request.CreateResponse(this.businessLogic.LoadPruebaAsync, pruebaId, response =>
             {
                 // Adds the proper hateoas links to this item
-                response.Data.Links = new Dictionary<string, string>();
-                response.Data.Links.Add("self", $"/items/{pruebaId}");
-                response.Data.Links.Add("delete", $"/items/{pruebaId}");              
+                            
             });
         }
 
@@ -124,12 +116,7 @@ namespace Template.Service.Functions
             return await request.CreateResponse(this.businessLogic.LoadPruebasAsync, response =>
             {
                 // Adds the proper hateoas links to each item in the collection
-                foreach(var prueba in response.Data)
-                {
-                    prueba.Links = new Dictionary<string, string>();
-                    prueba.Links.Add("self", $"/items/{prueba.PruebaId}");
-                    prueba.Links.Add("delete", $"/items/{prueba.PruebaId}");
-                }
+                
                 response.Links = new Dictionary<string, string>();
                 response.Links.Add("nextPage", $"/pruebas?page={page + 1}");
 

@@ -41,6 +41,7 @@ namespace Template.Service.Tests
             {
                 PruebaId = Guid.NewGuid(),
                 Descripcion = "Test",
+                Numero = 1,
             };
 
             var request = MockHttpRequestData.Create(prueba);

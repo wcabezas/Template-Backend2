@@ -13,6 +13,7 @@ namespace Template.SqlDataAccess
        
         public DbSet<ItemEntity> Items { get; set; }
         public DbSet<PruebaEntity> Pruebas { get; set; }
+        public DbSet<SolicitudEntity> Solicitudes { get; set; }
 
 
         /// <summary>
@@ -62,14 +63,15 @@ namespace Template.SqlDataAccess
                 // optionsBuilder.UseSqlServer(connectionString);             
             }
 
+
             // This can be used by EF Core when scalfolding SQL
-            //else
-            //{
-            //    if (!optionsBuilder.IsConfigured)
-            //    {
-            //        //optionsBuilder.UseSqlServer("connectionString");
-            //    }
-            //}
+            else
+            {
+                if (!optionsBuilder.IsConfigured)
+                {
+                    optionsBuilder.UseSqlServer("connectionString");
+                }
+            }
         }
 
 

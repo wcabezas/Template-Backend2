@@ -16,7 +16,7 @@
     [Route("api/v1/[controller]")]
     public class PruebasController : BaseController
     {
-        private IPruebasBusinessLogic pruebasBusinesLogic;
+        private readonly IPruebasBusinessLogic pruebasBusinesLogic;
 
         /// <summary>
         /// Receives by DI the dependencies

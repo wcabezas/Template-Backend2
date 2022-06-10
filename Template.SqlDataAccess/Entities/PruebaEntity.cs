@@ -20,6 +20,8 @@
 
         public DateTimeOffset Fecha { get; set; }
 
+        public int Numero { get; set; }
+
         public bool Deleted { get; set; }
 
         /// <summary>
@@ -31,7 +33,8 @@
             {
                 PruebaId = this.PruebaId,
                 Descripcion = this.Descripcion,
-                Fecha = this.Fecha,
+                FechaCreacion = this.Fecha,
+                Numero = this.Numero
             };
         }
 
@@ -41,11 +44,12 @@
         /// </summary>        
         public static PruebaEntity FromModel(Prueba prueba)
         {
-            return new PruebaEntity 
+            return new PruebaEntity
             {
                 PruebaId = prueba.PruebaId,
                 Descripcion = prueba.Descripcion,
-                Fecha = prueba.Fecha,
+                Fecha = prueba.FechaCreacion,
+                Numero = prueba.Numero,
             };
         }
 

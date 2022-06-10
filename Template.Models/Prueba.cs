@@ -11,11 +11,11 @@ namespace Template.Models
     public class Prueba
     {
         public Guid PruebaId { get; set; }
-        public DateTimeOffset Fecha { get; set; }
+        public DateTimeOffset FechaCreacion { get; set; }
         public string Descripcion { get; set; }
+        public int Numero { get; set; }
 
-        [JsonProperty("_links")]
-        public Dictionary<string, string> Links { get; set; }
+        
 
     }
 }
